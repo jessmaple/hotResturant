@@ -24,6 +24,7 @@ app.get("/", function(req, res) {
  res.send("Welcome to Hot Restaurant Page!");
 });
 
+
 app.get("/api/tables", function(req, res) {
     res.json(reservations);
 });
