@@ -15,26 +15,22 @@ function TableReservation(id, name, email, phone){
 }
 
 reservations.push(new TableReservation('001','Mesay','mesay@gmail.com', '1232434343'));
-// Data
-const data1 = {
+reservations.push(new TableReservation('002','Kevin','kevin@gmail.com', '4532545455'));
 
-};
-
-const data2 = {
-
-};
 
 
 // Routes
 app.get("/", function(req, res) {
+ res.send("Welcome to Hot Restaurant Page!");
+});
+
+app.get("/api/tables", function(req, res) {
     res.json(reservations);
-//   res.send("Welcome to Hot Restaurant Page!");
 });
 
-app.get("/mes", function(req, res) {
-  res.json(reservations);
+app.get("/api/waitlist", function(req, res) {
+    res.json(waitList);
 });
-
 
 
 app.listen(PORT, function() {
