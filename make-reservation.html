@@ -72,5 +72,45 @@
         </div>
       </div>
     </div>
+    <script>
+      $("#submit").on("click", function() {
+        const data = {};
+        data.name = $("#reserve-name").val();
+        data.phone = $("#reserve-phone").val();
+        data.email = $("#reserve-email").val();
+        data.id = $("#reserve-unique").val();
+        $.post("/api/tables", data).then(function(res) {
+          console.log(res);
+        });
+      });
+    </script>
+    <script>
+      //send a get request to an api route that we coded on the server
+      $.ajax({
+        url: "/api/tables",
+        method: "GET"
+      })
+        //if the request is succesful, do the success thing
+        .then(function(response) {
+          //looking at server.js, I know that "data" here will be my reservations array
+          console.log(response);
+          //eventually, I'll want to use this data to do some jquery appending
+          data.forEach(tableObject => {
+            //we use each tableObject to create a new html element, and append that to the page
+            let name = tableObject.name;
+            let id = tableObject.id;
+            let email = tableObject.email;
+            let phone = tableObject.phone;
+            let row = $("<div class='row'></div>");
+            row.append(/*all the stuff*/);
+            $("#some-element-on-the-page").append(row);
+          });
+        })
+        //if something bad happened (aka the request failed)
+        .catch(err => {
+          //console.log the error so we know something happened and we can see what it is with this console.log:
+          console.log(err);
+        });
+    </script>
   </body>
 </html>
