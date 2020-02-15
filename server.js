@@ -1,10 +1,12 @@
 const express = require("express");
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 2000;
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-let reservations = [];
-let waitList = [];
+const reservations = [];
+const waitList = [];
 
 function TableReservation(id, name, email, phone){
     this.id = id;
@@ -13,7 +15,6 @@ function TableReservation(id, name, email, phone){
     this.phone = phone;
 }
 
-reservations.push(new TableReservation('001','Mesay','mesay@gmail.com', '1232434343'));
 reservations.push(new TableReservation('002','Kevin','kevin@gmail.com', '4532545455'));
 
 
@@ -27,13 +28,20 @@ app.get("/api/tables", function(req, res) {
     res.json(reservations);
 });
 
+app.post("/api/tables", function (req, res) {
+  const data = req.body;
+  const newTbl = new TableReservation(data.id, data.name, data.email, data.phone);
+  if (reservations.length <= 5) {
+    reservations.push(newTbl);
+  } else {
+    waitList.push(newTbl)
+  }
+  
+  res.json({reservations, waitList});
+})
+
 app.get("/api/waitlist", function(req, res) {
     res.json(waitList);
-});
-
-
-app.listen(PORT, function() {
-  console.log("App listening at PORT " + PORT);
 });
 
 app.listen(PORT, () => {
